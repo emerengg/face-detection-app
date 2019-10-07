@@ -1,0 +1,488 @@
+#root {
+  background-color: #FDD935;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.app {
+  width: 100%;
+  height: 100vh;
+  color: #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+canvas {
+  background-color: black;
+}
+
+.app-title {
+  height: 8vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-title div {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.main {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+.start-screen {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.start-screen .title {
+  text-align: center;
+}
+
+footer {
+  width: 100%;
+}
+
+.reference {
+  font-size: 1.1em;
+  opacity: 1;
+  transition: opacity 0.5s linear;
+  width: 100%;
+  height: 8vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  z-index: 1;
+}
+
+.reference .ref-item {
+  padding: 1rem;
+}
+
+.reference .ref-item:hover * {
+  transition: 300ms;
+  cursor: pointer;
+  color: white;
+}
+
+.reference .ref-item a {
+  text-decoration: none;
+  transition: 300ms;
+  color: #FDD935;
+}
+
+.reference .ref-item small {
+  padding-left: 0.25em;
+  transition: 300ms;
+  color: #FDD935;
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.wave svg {
+  width: 100%;
+  height: 50vh;
+  height: 100%;
+  display: block;
+}
+
+.upload-form {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1;
+}
+
+.upload-form form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.upload-form form label{
+  transition: 500ms;
+  margin-bottom: 1rem;
+  font-size: 0;
+}
+.upload-form form label i{
+  font-size: 10rem;
+}
+
+
+.upload-form form label:hover{
+  transition: 500ms;
+  color: white;
+  cursor: pointer;
+}
+
+.upload-form form label{
+  margin-bottom: 1rem;
+}
+
+.upload-form form .inputfile{
+  display: none;
+}
+
+.upload-form form .upload{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.upload-form form .upload span{
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.upload-form form .btn{
+  background: none;
+  color: inherit;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  
+  padding: 0.25rem;
+  transition: 500ms;
+
+  font-size: 16px; 
+
+  border: 1px solid black;
+  background-color: #FDD935;
+  color: black;
+  font-weight: bold;
+  border-radius: 25px;
+  text-align: center;
+  z-index: 1;
+}
+
+.upload-form form .btn:hover{
+  border: 1px solid white;
+  background-color: white;
+  color: #FDD935;
+}
+
+.upload-error{
+  padding: 0.25rem;
+  transition: 300ms;
+
+  font-size: 16px; 
+
+  border: none;
+  color: red;
+  background-color: #FDD935;
+  font-weight: bold;
+  border-radius: 25px;
+  text-align: center;
+  margin: 0 2rem 0 2rem;
+  transition: 350ms;
+}
+
+.uploading {
+  height: 100%;
+}
+
+.loading {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  border-radius: 50%;
+  border-top: 6px solid black;
+  border-right: 6px solid transparent;
+  width: 180px;
+  height: 180px;
+  -webkit-animation: spin 0.8s linear infinite; /* Safari */
+  animation: spin 0.8s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.canvas-menu {
+  width: 100%;
+  height: 85vh;
+}
+
+.canvas-menu .canvas-wrapper{
+  height: 85vh;
+  position: relative;
+}
+
+.canvas-menu .canvas-wrapper canvas {
+  height: 100%;
+}
+
+.canvas-menu .menu {
+  height: 15vh;
+}
+
+.canvas-menu .not-found {
+  width: 100%;
+  height: 15vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.canvas-menu .not-found p {
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.canvas-menu .not-found button{
+  background: none;
+  color: inherit;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  
+  padding: 0.5rem;
+  transition: 350ms;
+
+  font-size: 1em; 
+
+  border: 1px solid black;
+  background-color: black;
+  color: #FDD935;
+  font-weight: bold;
+  border-radius: 25px;
+}
+
+.canvas-menu .not-found button:hover{
+  background-color: #FDD935;
+  color: black;
+  border: 1px solid black;
+  transition: 350ms;
+}
+
+.tooltip {
+  background-color: rgba(255,255,255,0.9);
+  color: black;
+  border: 1px solid black;
+  border-radius: 24px;
+  padding: 0.75rem;
+
+  display: flex;
+}
+
+.tooltip .tip{
+  order: 1;
+  margin: 0;
+  font-weight: bold;
+  margin: 1.5rem 1rem;
+}
+
+.tooltip .tip span{
+  color: red;
+}
+
+.tooltip .material-icons {
+  order: 2;
+  cursor: pointer;
+}
+
+.menu {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.menu div {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.menu div .btn{
+  margin-bottom: 0.15rem; 
+  display: flex;
+  justify-content: space-around;
+}
+
+.display-faces {
+  margin: 0;
+  font-weight: bold;
+  margin-bottom: 0.15rem;
+}
+
+/* menu buttons */
+.btn {
+  background: none;
+  color: inherit;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  
+  width: 100px;
+  padding: 0.25rem;
+  transition: 300ms;
+
+  border: none;
+  border: 1px solid black;
+  background-color: black;
+  color: #FDD935;
+  font-weight: bold;
+  border-radius: 25px;
+  text-align: center;
+}
+
+.btn:hover {
+  transition: 300ms;
+  border: 1px solid black;
+  background-color: #FDD935;
+  color: black;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(100, 100, 100);
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: #FDD935;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+input:checked + .slider {
+  -webkit-transition: .3s;
+  transition: .3s;
+  background-color: black;
+}
+
+input:focus + .slider {
+  -webkit-transition: .3s;
+  transition: .3s;
+  box-shadow: 0 0 1px black;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.overlay:hover {
+  cursor: pointer;
+}
+
+@media (max-width: 420px) {
+  .reference .ref-item {
+    padding: 0.5rem;
+  }
+  .reference .ref-item small {
+    display: none;
+  }  
+  .wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+  
+  .wave svg {
+    width: 100%;
+    height:100%;
+  }
+}
+
+@media (max-width: 300px) {
+  .reference .ref-item a {
+    text-decoration: none;
+    transition: 300ms;
+    color: black;
+  }
+
+  .wave {
+    display: none;
+  }
+}

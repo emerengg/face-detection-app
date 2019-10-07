@@ -1,0 +1,5 @@
+export const GET_FACES = "GET_FACES"
+export const RESET_STORE = "RESET_STORE"
+export const UPLOAD_ERROR = "UPLOAD_ERROR"
+export const CLEAR_UPLOAD_ERROR = "CLEAR_UPLOAD_ERROR"
+

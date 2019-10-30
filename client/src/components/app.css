@@ -306,11 +306,16 @@ footer {
   transition: 350ms;
 }
 
+
+/* tooltip */
 .tooltip {
-  background-color: rgba(255,255,255,0.9);
-  color: black;
-  border: 1px solid black;
-  border-radius: 24px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(0,0,0,0.7);
+  color: white;
+  border: 1px solid rgb(70, 70, 70);
+  border-radius: 8px;
   padding: 0.75rem;
 
   display: flex;
@@ -327,10 +332,15 @@ footer {
   color: red;
 }
 
-.tooltip .material-icons {
+.tooltip .close {
   order: 2;
-  cursor: pointer;
 }
+
+.tooltip .close .material-icons:hover {
+  cursor: pointer;
+  color: rgb(170, 170, 170)
+}
+
 
 .menu {
   display: flex;

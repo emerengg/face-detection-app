@@ -6,13 +6,13 @@ export const resetStore = () => dispatch => {
     })
 }
 
-export const getFaces = (file) => (dispatch, getState) => {
+export const getFaces = (image) => (dispatch, getState) => {
 
     const url = window.URL;
-    const src = url.createObjectURL(file.image);
+    const src = url.createObjectURL(image);
 
     const data = new FormData()
-    data.append('img', file.image, file.image.name)
+    data.append('img', image, image.name)
 
     const endpoint = 'http://127.0.0.1:8000/api/fd/'
 

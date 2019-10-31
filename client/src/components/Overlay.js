@@ -12,10 +12,8 @@ const Overlay = ({object, handleUpdateState}) => {
         width: String(cords.w) + 'px',
         height: String(cords.h) + 'px',
         pointer: 'cursor',
-        border: '',
+        border: isSelected ? '2px solid blue' : '2px solid red',
     };
-
-    overlayStyle.border = isSelected ? '2px solid blue' : '2px solid red';
 
     return (
         <div 

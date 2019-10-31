@@ -7,7 +7,6 @@ import Menu from './Menu';
 import Overlay from './Overlay';
 import Tooltip from './Tooltip';
 
-
 class Canvas extends Component {
   constructor(props){
     super(props)
@@ -17,7 +16,6 @@ class Canvas extends Component {
       image,
       objects: [],
       display: false,
-      canvas: null,
       canvasPosition: { x: null, y: null, w: null, h: null },
       isTooltip: true
     }
@@ -56,10 +54,6 @@ class Canvas extends Component {
     const { facesCords } = this.state
     const { canvas, cvs } = this.refs
     const ctx = canvas.getContext('2d');
-
-    this.setState({
-      canvas
-    })
     
     const maxWidth = cvs.clientWidth;
     const maxHeight = cvs.clientHeight;
@@ -94,7 +88,7 @@ class Canvas extends Component {
         const y = Math.round(((c.y / img.height) * newHeight) + end);
         const w = Math.round((((c.w / img.width) * newWidth) - x) + start);
         const h = Math.round((((c.h / img.height) * newHeight) - y) + end);
-        return { cords:{x: x, y: y, w: w, h: h}, isSelected: false }
+        return {cords:{x: x, y: y, w: w, h: h}, isSelected: false}
       })
       
       ctx.drawImage(img, start, end, newWidth, newHeight);
@@ -102,7 +96,7 @@ class Canvas extends Component {
       this.setState({
         objects,
         image: img,
-        canvasPosition: { x: start, y: end, w: newWidth, h: newHeight }
+        canvasPosition: {x: start, y: end, w: newWidth, h: newHeight}
       })
     };
     img.src = this.props.image;
@@ -127,7 +121,7 @@ class Canvas extends Component {
         let strength;
 
         if(imageData.height >= 300){
-          strength = 5;
+          strength = 6;
         }else if(imageData.height >= 240){
           strength = 5;
         }else if(imageData.height >= 180){
@@ -164,9 +158,9 @@ class Canvas extends Component {
   }
 
   handleClear = () => {
-    const { image, canvasPosition } = this.state
+    const { image, canvasPosition } = this.state;
 
-    const canvas = this.refs.canvas
+    const canvas = this.refs.canvas;
     const ctx = canvas.getContext('2d');
     
     ctx.drawImage(image, canvasPosition.x, canvasPosition.y, canvasPosition.w, canvasPosition.h);
@@ -185,10 +179,8 @@ class Canvas extends Component {
   }
 
   render() {
-    const { resetStore } = this.props
-    const { canvas, display, facesCords, objects, isTooltip } = this.state
-
-    const wrapperStyle = canvas ? {height: `${canvas.height}px`} : null;
+    const { resetStore } = this.props;
+    const { display, facesCords, objects, isTooltip } = this.state;
 
     const fcvs = {
       width:'40px',
@@ -198,16 +190,16 @@ class Canvas extends Component {
 
     return (
         <div className="canvas-menu">
-          <div className="canvas-wrapper" ref="cvs" style={wrapperStyle}>
+          <div className="canvas-wrapper" ref="cvs">
               <canvas ref="canvas"></canvas>
-              {facesCords.length > 0 && display ? objects.map((object, index) => 
-                <Overlay key={index} object={object} handleUpdateState={this.upadateState} />)
-              : null}
-              {isTooltip && <Tooltip display={display} handleTooltip={this.handleTooltip}/>}
+              {(facesCords.length > 0 && display) && objects.map((object, index) => 
+                <Overlay key={index} object={object} handleUpdateState={this.upadateState} />)}
           </div>
           <canvas ref="fcanvas" style={fcvs}></canvas>
           {facesCords.length > 0 ?
-            <Menu display={display} handleDisplay={this.handleDisplay} handleClear={this.handleClear} handleBlur={this.handleBlur} faces={facesCords.length}/>
+            <Menu display={display} handleDisplay={this.handleDisplay} handleClear={this.handleClear} handleBlur={this.handleBlur} faces={facesCords.length}>
+              {isTooltip && <Tooltip display={display} handleTooltip={this.handleTooltip}/>}
+            </Menu>
             :
             <div className="not-found">
               <p>No faces found!</p>

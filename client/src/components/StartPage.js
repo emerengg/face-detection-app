@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-const Main = (props) => {
+const StartPage = (props) => {
     return ( 
         <div className="start-screen">
             <div className="title"><h1>Face Detection App</h1></div>
@@ -23,4 +23,4 @@ const Main = (props) => {
      );
 }
  
-export default Main;
+export default StartPage;

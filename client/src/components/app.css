@@ -20,6 +20,7 @@ code {
 .app {
   width: 100%;
   height: 100vh;
+  position: relative;
   color: #000;
   display: flex;
   justify-content: space-between;
@@ -45,10 +46,10 @@ canvas {
   font-weight: bold;
 }
 
+/* delete main */
 .main {
   height: 100vh;
   width: 100%;
-  position: relative;
 }
 
 .start-screen {
@@ -258,6 +259,7 @@ footer {
 }
 
 .canvas-menu .canvas-wrapper canvas {
+  width: 100%;
   height: 100%;
 }
 

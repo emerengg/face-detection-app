@@ -258,6 +258,12 @@ footer {
   position: relative;
 }
 
+.canvas-menu .fcanvas {
+  width: 40px;
+  height: 40px;
+  display: none;
+}
+
 .canvas-menu .canvas-wrapper canvas {
   width: 100%;
   height: 100%;

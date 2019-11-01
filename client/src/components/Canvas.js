@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { resetStore } from '../actions/faces'
 import PropTypes from 'prop-types';
+import { resetStore } from '../actions/faces'
 
 import Menu from './Menu';
 import Overlay from './Overlay';
 import Tooltip from './Tooltip';
 
+
 class Canvas extends Component {
   constructor(props){
     super(props)
-    const { cords, image } = this.props
+    const { image } = this.props
     this.state = {
-      facesCords: cords,
       image,
+      imagePosition: null,
       objects: [],
-      display: false,
-      canvasPosition: { x: null, y: null, w: null, h: null },
+      isMenu: false,
       isTooltip: true
     }
   }
@@ -27,32 +27,24 @@ class Canvas extends Component {
     resetStore: PropTypes.func.isRequired,
   }
 
-
   componentDidMount = () => {
-    this.updateCanvas()
-
+    this.updateCanvas();
     window.onresize = () => {
-      const { display } = this.state
-      if(display){
+      const { isMenu } = this.state;
+      if(isMenu){
         this.setState({
-          display: false
+          isMenu: false
         })
       }
-      this.updateCanvas()
+      try {
+        this.updateCanvas();
+      } catch (err){}
     }
-  }
-  
-  componentWillUnmount = () => {
-      window.onresize = () => {
-        try{
-          this.updateCanvas()
-        }catch(err){}
-      }
   }
 
   updateCanvas = () => {
-    const { facesCords } = this.state
-    const { canvas, cvs } = this.refs
+    const { image, cords } = this.props;
+    const { canvas, cvs } = this.refs;
     const ctx = canvas.getContext('2d');
     
     const maxWidth = cvs.clientWidth;
@@ -63,7 +55,6 @@ class Canvas extends Component {
     img.onload = () => {
       let start = 0;
       let end = 0;
-
       
       canvas.width  = maxWidth;
       canvas.height = maxHeight;
@@ -83,7 +74,7 @@ class Canvas extends Component {
       end = (canvas.height - newHeight) / 2;
 
       // scaling faces cords to match resized image
-      const objects = facesCords.map(c => {
+      const objects = cords.map(c => {
         const x = Math.round(((c.x / img.width) * newWidth) + start);
         const y = Math.round(((c.y / img.height) * newHeight) + end);
         const w = Math.round((((c.w / img.width) * newWidth) - x) + start);
@@ -96,14 +87,14 @@ class Canvas extends Component {
       this.setState({
         objects,
         image: img,
-        canvasPosition: {x: start, y: end, w: newWidth, h: newHeight}
+        imagePosition: {x: start, y: end, w: newWidth, h: newHeight}
       })
     };
-    img.src = this.props.image;
+    img.src = image;
   } 
 
   handleBlur = () => {
-    const { canvas, fcanvas } = this.refs
+    const { canvas, fcanvas } = this.refs;
     const ctx = canvas.getContext('2d');
     const fContext = fcanvas.getContext('2d');
 
@@ -111,7 +102,7 @@ class Canvas extends Component {
       if(object.isSelected){
 
         // copy image 
-        const imageData = ctx.getImageData(object.cords.x, object.cords.y, object.cords.w, object.cords.h)
+        const imageData = ctx.getImageData(object.cords.x, object.cords.y, object.cords.w, object.cords.h);
         fcanvas.width  = imageData.width;
         fcanvas.height = imageData.height;
 
@@ -144,13 +135,13 @@ class Canvas extends Component {
         fContext.globalAlpha = 1.0;
 
         //copy blured image and past back to the canvas
-        const newImageData = fContext.getImageData(0, 0, imageData.width, imageData.height)
+        const newImageData = fContext.getImageData(0, 0, imageData.width, imageData.height);
         ctx.putImageData(newImageData, object.cords.x, object.cords.y);
       }
     }
   }
 
-  upadateState = (cords) => {
+  updateObject = (cords) => {
     const objects = this.state.objects.map(object => object.cords.x === cords.x ? {...object, isSelected: !object.isSelected} : object)
     this.setState({
       objects
@@ -158,17 +149,18 @@ class Canvas extends Component {
   }
 
   handleClear = () => {
-    const { image, canvasPosition } = this.state;
+    const { image, imagePosition } = this.state;
+    const {x, y, w, h} = imagePosition;
 
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext('2d');
-    
-    ctx.drawImage(image, canvasPosition.x, canvasPosition.y, canvasPosition.w, canvasPosition.h);
+
+    ctx.drawImage(image, x, y, w, h);
   }
 
   handleDisplay = () => {
     this.setState({
-      display: !this.state.display
+      isMenu: !this.state.isMenu
     })
   }
 
@@ -179,26 +171,21 @@ class Canvas extends Component {
   }
 
   render() {
-    const { resetStore } = this.props;
-    const { display, facesCords, objects, isTooltip } = this.state;
-
-    const fcvs = {
-      width:'40px',
-      height:'40px',
-      display: 'none'
-    }
+    const { cords, resetStore } = this.props;
+    const { isMenu, objects, isTooltip } = this.state;
 
     return (
         <div className="canvas-menu">
           <div className="canvas-wrapper" ref="cvs">
               <canvas ref="canvas"></canvas>
-              {(facesCords.length > 0 && display) && objects.map((object, index) => 
-                <Overlay key={index} object={object} handleUpdateState={this.upadateState} />)}
+              {(cords.length > 0 && isMenu) && objects.map((object, index) => (
+                <Overlay key={index} object={object} handleUpdateState={this.updateObject} />
+              ))}
           </div>
-          <canvas ref="fcanvas" style={fcvs}></canvas>
-          {facesCords.length > 0 ?
-            <Menu display={display} handleDisplay={this.handleDisplay} handleClear={this.handleClear} handleBlur={this.handleBlur} faces={facesCords.length}>
-              {isTooltip && <Tooltip display={display} handleTooltip={this.handleTooltip}/>}
+          <canvas className="fcanvas" ref="fcanvas"></canvas>
+          {cords.length > 0 ?
+            <Menu display={isMenu} handleDisplay={this.handleDisplay} handleClear={this.handleClear} handleBlur={this.handleBlur} faces={cords.length}>
+              {isTooltip && <Tooltip display={isMenu} handleTooltip={this.handleTooltip}/>}
             </Menu>
             :
             <div className="not-found">

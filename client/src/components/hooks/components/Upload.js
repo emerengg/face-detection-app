@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getFaces, clearUploadError } from '../../../actions/faces'
 
 
-const ImageUploader = () => {
+const Upload = () => {
     const [image, setImage] = useState(null);
     const [name, setName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -75,4 +75,4 @@ const ImageUploader = () => {
     );
 }
 
-export default ImageUploader
+export default Upload;

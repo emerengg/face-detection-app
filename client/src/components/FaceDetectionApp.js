@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Canvas from './Canvas';
 import StartPage from './StartPage';
-import ImageUploader from './ImageUploader';
+import Upload from './hooks/components/Upload';
 
 import './app.css';
 
@@ -18,7 +18,7 @@ class FaceDetectionApp extends Component {
           <Canvas/>
         :
           <StartPage>
-            <ImageUploader />
+            <Upload />
           </StartPage>
         }
       </div>
